@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+		@import url(http://fonts.googleapis.com/css?family=Megrim);
+		body{
+			font: sans-serif;
+			font-family: sans-serif;
+			font-size: 400px;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+
+		.contain{
+			width: 100%;
+			position: relative;
+			overflow: hidden;
+			background: white;
+			margin: -10px;
+			padding: 10px; 
+		}
+
+		.main{
+			color: blue;
+			opacity: 0.5;
+			position: fixed;
+			text-align: center;
+			top: -0px;
+		}
+
+		.green{
+			color: green;
+			opacity: 0.2;
+			position: fixed;
+			text-align: center;
+			-webkit-transform: rotateY(25deg);
+			top: 0px;
+		}
+
+		.light_blue{
+			font-family: 'Megrim', cursive;
+			opacity: 0.1;
+			position: fixed;
+			text-align: center;
+			-webkit-transform: rotateZ(5deg);
+			top: 0px;
+		}
+
+		.one{
+			height: 200px;
+			//width: 100%;
+			background: teal;
+			opacity: 0.5;
+		}
+
+		.two{
+			height: 200px;
+			//width: 100%;
+			background: lightblue;
+			opacity: 0.5;
+		}
+
+		.one:after{
+			height: 200px;
+			width: 200%;
+			background: lightblue;
+			opacity: 0.1;
+			-webkit-transform: rotateZ(25deg);
+			content: "";
+			display: block;
+			position: absolute;
+			left: -200px;
+		}
+
+		.one:before{
+			height: 200px;
+			width: 200%;
+			background: lightblue;
+			opacity: 0.1;
+			-webkit-transform: rotateZ(25deg);
+			content: "";
+			display: block;
+			position: absolute;
+			left: -200px;
+		}
+
+		.two:after{
+			height: 200px;
+			width: 200%;
+			background: teal;
+			opacity: 0.1;
+			-webkit-transform: rotateZ(-25deg);
+			content: "";
+			display: block;
+			position: absolute;
+			left: -200px;
+		}
+
+		.two:before{
+			height: 200px;
+			width: 200%;
+			background: teal;
+			opacity: 0.1;
+			-webkit-transform: rotateZ(-25deg);
+			content: "";
+			display: block;
+			position: absolute;
+			left: -200px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="contain">
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="text">
+			<span class="main">BLUE</span>
+			<span class="green">BLUE</span>
+			<span class="light_blue">BLUE</span>
+		</div>
+	</div>
+</body>
+</html>
