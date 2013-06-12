@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Greg</title>
+	<script src="jquery.js"></script>
+	<style type="text/css">
+
+		@import url(http://fonts.googleapis.com/css?family=Open+Sans, Vollkorn);
+
+		h1{
+			font-family: 'Open Sans', sans-serif;
+			color: rgba(255, 255, 255, 0.8);
+			text-shadow: 1px 4px 6px #FFF, 0px 0px 1px #000, 1px 4px 6px #FFF;
+			font-size: 100px;
+		}
+
+		.contain{
+			width: 1000px;
+			margin: auto;
+			text-align: center;
+		}
+
+		.quote{
+		}
+
+		li{
+			font-family: 'Vollkorn', serif;
+			//opacity: 0;
+			list-style: none;
+			position: absolute;
+			background: #fff;
+			width: 1000px;
+			height: 400px;
+			text-align: center;
+			font-size: 90px;
+		}
+
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		var text = ['""', '""', '""', '""', '""', '""', '""', '""', '"<a href="https://twitter.com/embleebee">#whatcan</a>"']
+
+		function rotateText() {
+  			var ct = $("#rotate").data("text") || 0;
+  			$("#rotate").data("text", ct == text.length -1 ? 0 : ct + 1).html(text[ct]).fadeIn().delay(2500).fadeOut(300, rotateText);
+  		}
+		$(rotateText);
+	</script>
+	<div class="contain">
+		<h1>Greg:</h1>
+		<div class="quote">
+			<ul>
+				<li id="rotate">"*makes things awkward*"</li>
+
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,176 +1,31 @@
 <html>
 <head>
-	<title>Pure CSS3 awesome</title>
-	<style>
-		@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
-		body{
-			font-family: sans-serif;
-			padding: 0px;
-			margin: 0px;
-			font-family: 'Open Sans', sans-serif;
-		}
-
-		.container{
-			margin: 0px;
-			padding: 0px;
-			-webkit-animation:load 3s ;
-		}
-
-		@-webkit-keyframes load{
-			from{
-				opacity: 0;
-			}
-
-			to{
-				opacity: 1;
-			}
-		}
-
-		.side{
-			float: left;
-			width: 250px;
-			background: white;
-			height: 100%;
-		}
-
-		li{
-			list-style: none;
-		}
-
-		li a{
-			list-style: none;
-			background: #363636;
-			padding: 5px;
-			color: white;
-			font-size: 20px;
-			width: 200px;
-			display: block;
-		}
-
-		li:nth-of-type(1) a:hover{
-			background: orange;
-		}
-
-		li:nth-of-type(2) a:hover{
-			background: orangered;
-		}
-
-		li:nth-of-type(3) a:hover{
-			background: tomato;
-		}
-
-		li:nth-of-type(4) a:hover{
-			background: crimson;
-		}
-
-		li:nth-of-type(5) a:hover{
-			background: steelblue;
-		}
-
-		li a:active{
-			margin-left: 3px; 
-		}
-
-		li a:link, li a:visited{
-			color: white;
-			text-decoration: none;
-		}
-
-		.main{
-			margin-left: 300px;
-			font-size: 25px;
-		}
-
-		.base{
-			position: absolute;
-			z-index: -5;
-			background: white;
-		}
-
-		#home{
-			opacity: 0;
-		}
-
-		.item{
-			position: absolute;
-			left: -1200px;
-			width: 600px;
-			z-index: -6;
-			background: white;
-			-webkit-animation: left 1s;
-		}
-		.item:target{
-			-webkit-animation: slidein 1s;
-			background: white;
-			left: 300px;
-			z-index: -3;
-		}
-
-		@-webkit-keyframes slidein{
-			from{
-				left: -1200px;
-				background: white;
-				z-index: -3;
-			}
-
-			to{
-				left: 300px;
-				background: white;
-				z-index: -3;
-			}
-		}
-
-		.item:not(:target){
-			-webkit-animation: slideout 1s;
-		}
-
-		@-webkit-keyframes slideout{
-			from{
-				left: 300px;
-				z-index: -4;
-			}
-
-			to{
-				left: -1200px;
-				z-index: -4;
-			}
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="css.css">
+	<script src="jquery.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="side">
+<div class="main">
+	<span class="title"><a href="">Cal Things</a></span>
+	<div class="header">
+	</div>
+	<div class="padding">
+		<div class="menu">
+			<div class="spin-contain" ontouchstart="this.classList.toggle('hover');">
+				<div class="spin">
+					<div class="home"><a href="">Cal Things</a></div>
+					<div class="home-spin"><a href="">Home</a></div>
+				</div>
+			</div>
 			<ul>
-				<li><a href="#home">Home</a></li>
-				<li><a href="#page1">Page 1</a></li>
-				<li><a href="#page2">Page 2</a></li>
-				<li><a href="#page3">Page 3</a></li>
-				<li><a href="#about">About</a></li>
+				<li><a href="" class="one">Link One</a></li>
+				<li><a href="" class="two">Link Two</a></li>
+				<li><a href="" class="three">Link Three</a></li>
 			</ul>
 		</div>
-		<div class="main">
-			<div class="base">
-				<p> Click one of the buttons to the left</p>
-			</div>
-			<div class="item" id="home">
-			<!--Gets opacity applied. just used to bring us back to the base "page"-->
-			</div>
-			<div class="item" id="page1">
-				<p>Page 2</p>
-			</div>
-			<div class="item" id="page2">
-				<p>Page 3</p>
-			</div>
-			<div class="item" id="page3">
-				<p>Page 4</p>
-			</div>
-			<div class="item" id="about">
-				<p>About</p>
-				<img src="http://placehold.it/500">
-			</div>
-		</div>
 	</div>
-
+	<div class="content">
+		<p> Content. WHOA</p>
+	</div>
+</div>
 </body>
 </html>
