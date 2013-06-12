@@ -1,0 +1,150 @@
+html body{
+	padding: 0px;
+	margin: 0px;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+.main{
+	width: 100%;
+	background: #E8E8E8;
+	color: #141414;
+}
+
+.header{
+	background: #1C1C1C;
+	height: 300px;
+	/*-webkit-box-shadow: inset 0px 0px 20px 5px rgba(255, 255, 255, 0.5);
+	box-shadow: inset 0px 0px 20px 5px rgba(255, 255, 255, 0.5);*/
+	position: relative;
+	z-index: 2;
+}
+
+.menu{
+	position: relative;
+	width: 100%;
+	background: #E8E8E8;
+	font-size: 29px;
+	font-family: 'Open Sans', sans-serif;
+	margin: -5px;
+	left: 5px;
+	top: -23px;
+	z-index: 2;
+	border-bottom: 1px solid #CFCFCF;
+	box-shadow:  0px 0px 20px 5px rgba(160, 160, 160, 0.2);
+	height: 35px;
+}
+
+.home a, .home-spin a{
+	color: #4B88D2;
+	text-decoration: none;
+}
+
+.spin-contain{
+	-webkit-perspective: 100;
+	position: absolute;
+	left: 5px;
+}
+
+.spin-contain:hover .spin, .spin-contain.hover .spin{
+	-webkit-transform: rotateX(180deg);
+}
+
+.spin{
+	transition: 0.6s;
+	-webkit-transform-style: preserve-3d;
+	position: relative;
+}
+
+.home, .home-spin{
+	-webkit-backface-visibility: hidden;
+	position: relative;
+	top: 0;
+	left: 0;
+	color: #4B88D2;
+}
+
+.home{
+	z-index: 2;
+}
+
+.home-spin{
+	-webkit-transform: rotateX(180deg);
+	text-align: center;
+}
+
+.menu ul{
+	list-style: none;
+	position: relative;
+	margin-left: 120px;
+}
+
+.menu ul li{
+	display: inline;
+}
+
+.menu ul li a{
+	text-decoration: none;
+	color: #141414;
+}
+
+.one:hover{
+	color: #3785CD;
+}
+
+.two:hover{
+	color: #2B63AB;
+}
+
+.three:hover{
+	color: #234C8B;
+}
+
+.title a{
+	font-family: 'Open Sans', sans-serif;
+	color: #1962E1;
+	font-size: 15em;
+	font-weight: 400;
+	position: absolute;
+	z-index: 3;
+	top: -15px;
+	left: 50px;
+	text-shadow:-10px 10px 0px #17479B,
+	-10px 10px 10px rgba(20, 20, 20, 0.2),
+	-20px 20px 0px #1D3E77,
+	-20px 20px 10px rgba(20, 20, 20, 0.2),
+	-30px 30px 0px #133777,
+	-30px 30px 10px rgba(20, 20, 20, 0.2),
+	-40px 40px 0px #0E2E66,
+	-40px 40px 10px rgba(20, 20, 20, 0.2);
+	transition: 0.6s;
+}
+
+.title a:link{
+	text-decoration: none;
+}
+
+.title a:hover{
+	text-shadow:0px 0px 0px #17479B, 
+	0px 0px 0px #1D3E77, 
+	0px 0px 0px #133777, 
+	0px 0px 0px #0E2E66,
+	-10px 10px 10px rgba(20, 20, 20, 0.2);
+	transition: 0.6s;
+}
+
+.padding{
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	height: 60px;
+	box-shadow:  0px 0px 20px 5px rgba(232, 232, 232, 0.2);
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.content{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+	margin-top: 70px;
+	height: 900px;
+}
