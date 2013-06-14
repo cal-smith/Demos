@@ -73,28 +73,53 @@ html body{
 	text-align: center;
 }
 
-.one-main{
-	position: relative;
-	margin-left: 170px;
-}
-
-.one-contain{
-	-webkit-perspective: 100;
+.one{
 	position: absolute;
-	left: 5px;
-}
-
-.one-contain:hover .spin-one, .one-contain.hover .spin-one{
-	-webkit-transform: rotateX(180deg);
-}
-
-.spin-one{
-	transition: 0.6s;
+	margin-left: 170px;
+	color: #4B88D2;
+	-webkit-perspective: 100;
+	transition: 0.3s;
 	-webkit-transform-style: preserve-3d;
-	position: relative;
 }
 
-.one, .one2{
+.one:hover{
+	-webkit-transform: rotateX(30deg);
+	-webkit-transform-style: preserve-3d;
+	transition: 0.3s;
+}
+
+.two{
+	position: absolute;
+	margin-left: 240px;
+
+	color: #4B88D2;
+	-webkit-perspective: 100;
+	transition: 0.3s;
+	-webkit-transform-style: preserve-3d;
+}
+
+.two:hover{
+	-webkit-transform: rotateX(30deg);
+	-webkit-transform-style: preserve-3d;
+	transition: 0.3s;
+}
+
+.three{
+	position: absolute;
+	margin-left: 335px;
+	color: #4B88D2;
+	-webkit-perspective: 100;
+	transition: 0.3s;
+	-webkit-transform-style: preserve-3d;
+}
+
+.three:hover{
+	-webkit-transform: rotateX(30deg);
+	-webkit-transform-style: preserve-3d;
+	transition: 0.3s;
+}
+
+/*.one, .one2{
 	-webkit-backface-visibility: hidden;
 	position: relative;
 	top: 0;
@@ -186,7 +211,12 @@ html body{
 .three2{
 	-webkit-transform: rotateX(180deg);
 	text-align: center;
-}
+}*/
+
+
+
+
+
 .one a, .one2 a{
 	color: #2B63AB;
 }
