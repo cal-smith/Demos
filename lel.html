@@ -3,6 +3,15 @@
 <head>
 	<script src="jquery.min.js"></script>
 </head>
+<!--
+todo!
+split up javascript and css into seperate files
+have no defualt image subreddit? (prompt users to enter one).
+spinner when loading moar images
+click on an image to fullscreen mode go
+nsfw check box 
+remove the ability to fire the lode moar images twice -_-
+-->
 <style type="text/css">
 .images{
 	width: 100%;
@@ -35,7 +44,7 @@
 	box-shadow: 5px 5px 0px 0px #404040;
 }
 
-.controls button{
+.controls input[type=submit]{
 	border: none;
 	background: #17479B;
 	padding: 4px;
@@ -43,49 +52,100 @@
 	font-size: 13px;
 }
 
-.controls button:hover{
+.controls input[type=submit]:hover{
 	background: #133777;
 }
 
-.controls button:active{
+.controls input[type=submit]:active{
 	-webkit-box-shadow: inset 0px 0px 1px 5px #000;
 	box-shadow: inset 0px 0px 0px 2px #000;
 }
+
+form{
+	display: inline;
+}
 </style>
 <script type="text/javascript">
-/*if(!('contains' in String.prototype))// polyfill for chrome so str.contains actually works.
+if(!('contains' in String.prototype))// polyfill for chrome so str.contains actually works.
   String.prototype.contains = function(str, startIndex) { return -1 !== String.prototype.indexOf.call(this, str, startIndex); };
+var sub = window.location.hash
 
-$.ajax({
-	url: "http://www.reddit.com/r/pics/.json",
-	jsonp: "jsonp",
-	dataType: "jsonp"
-}).done(function(json){
-	console.log(json);
-	for (var r = 0; r < json.data.children.length; r++){
-		console.log("done!");
-		var image = json.data.children[r].data.url;
-		if (image.contains("i.imgur")) {
-			if (json.data.children[r].data.over_18 === true) {
-				$('.images').append('<img class="nsfw" src='+ image +'>');
-				console.log("nsfw!");
-			}else if (json.data.children[r].data.over_18 === false){
-				$('.images').append('<img src='+ image +'>');
+var subreddits = sub.replace('#', ' ').trimLeft();
+console.log(subreddits);
+if(window.location.hash){
+	var url = "http://www.reddit.com/r/pics+"+ subreddits +".json"
+}else{
+	var url = "http://www.reddit.com/r/pics.json"
+}
+var datavar;
+datavar = {'limit': '50'};
+var loading = false;
+imgload(datavar);
+var after;
+
+function imgload(datavar){
+	$.ajax({
+		url: url,
+		jsonp: "jsonp",
+		data: datavar,
+		dataType: "jsonp"
+	}).done(function(json){
+		loading = false;
+		console.log(json);
+		after = json.data.after;
+		for (var r = 0; r < json.data.children.length; r++){
+			console.log("done!");
+			var image = json.data.children[r].data.url;
+			if (image.contains("i.imgur")) {
+				if (json.data.children[r].data.over_18 === true) {
+					$('.images').append('<img class="nsfw" src='+ image +'>');
+					console.log("nsfw!");
+				}else if (json.data.children[r].data.over_18 === false){
+					$('.images').append('<img src='+ image +'>');
+				}
 			}
 		}
+	});
+}
+function addsub(){
+	var sub = document.getElementById("addsub").value;
+	if (window.location.hash){
+		window.location.hash += "+" + sub;
+	} else{
+		window.location.hash += sub;
 	}
-});*/
+}
+
+function loadmore(){
+	console.log(after);
+	datavar = {'limit': '50', 'after':after};
+	imgload(datavar);
+}
+
+$(window).scroll(function(){
+	if($(window).scrollTop()==$(document).height()-$(window).height()){
+		console.log("bottom!");
+		if (loading == false){
+			loadmore();	
+			loading = true;
+		} else if (loading == true){
+			console.log("loading...");
+		}
+	}
+});
 </script>
 <body>
 	<div class="controls">
 		<span>controls:</span>
 		<label for="nsfw"><input type="checkbox" id="nsfw" name="nsfw" disabled="disabled"/>Enable NSWF?</label>
 		<span>|</span>
-		<input type="text" id="addsub" name="addsub" placeholder="Add Subreddits" disabled="disabled"/>
-		<button disabled="disabled">Add</button>
+		<form name="addsub" action="javascript:addsub();">
+			<input type="text" id="addsub" name="addsub" placeholder="Add Subreddits">
+			<input type="submit" vaue="Add">
+		</form>
 	</div>
 	<div class="images">
-		<img src='http://placehold.it/350'>
+		<!--<img src='http://placehold.it/350'>
 		<img src='http://placehold.it/700'>
 		<img src='http://placehold.it/650x500'>
 		<img src='http://placehold.it/648x650'>
@@ -96,6 +156,6 @@ $.ajax({
 		<img src='http://placehold.it/350'>
 		<img src='http://placehold.it/700'>
 		<img src='http://placehold.it/650x500'>
-		<img src='http://placehold.it/648x650'>
+		<img src='http://placehold.it/648x650'>-->
 	</div>
 </body>
