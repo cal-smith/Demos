@@ -17,13 +17,12 @@ $.getJSON( flickr, {
 			var secret = flickr_data.photos.photo[f].secret;
 			var server = flickr_data.photos.photo[f].server;
 			var title = flickr_data.photos.photo[f].title;
-			var flickr_url = "http://farm"+ farm +".staticflickr.com/"+ server +"/"+ id +"_"+ secret +"_b.jpg"
+			var flickr_url = "http://farm"+ farm +".staticflickr.com/"+ server +"/"+ id +"_"+ secret +"_b.jpg";
 			var image = insta_data.data[f].images.standard_resolution.url;
 			var caption = insta_data.data[f].caption.text;
-			$('.left').append('<div><img src='+ flickr_url +'><p>'+ title +'</p></div><div><img src='+ image +'><p>'+ caption +'</p></div>')
+			$('.left').append('<div><img src='+ flickr_url +'><p>'+ title +'</p></div><div><img src='+ image +'><p>'+ caption +'</p></div>');
 		}
 	});
 });
-
 
 //location.href="https://instagram.com/oauth/authorize/?display=touch&client_id=f34c5fd9a3004b0d80373449a593b8f0&redirect_uri=http://hansolo669.github.io/Demos/index.html&response_type=token";

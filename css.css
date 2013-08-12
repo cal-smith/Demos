@@ -3,6 +3,19 @@ html body{
 	margin: 0px;
 }
 
+a{
+	color: #4B88D2;
+	text-decoration: none;
+}
+
+a:visited{
+	color: #4B88D2;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
 .main{
@@ -80,6 +93,7 @@ html body{
 	-webkit-perspective: 100;
 	transition: 0.3s;
 	-webkit-transform-style: preserve-3d;
+	height: 71px;
 }
 
 .one:hover{
@@ -91,7 +105,7 @@ html body{
 .two{
 	position: absolute;
 	margin-left: 240px;
-
+	height: 71px;
 	color: #4B88D2;
 	-webkit-perspective: 100;
 	transition: 0.3s;
@@ -111,6 +125,7 @@ html body{
 	-webkit-perspective: 100;
 	transition: 0.3s;
 	-webkit-transform-style: preserve-3d;
+	height: 71px;
 }
 
 .three:hover{
@@ -118,103 +133,6 @@ html body{
 	-webkit-transform-style: preserve-3d;
 	transition: 0.3s;
 }
-
-/*.one, .one2{
-	-webkit-backface-visibility: hidden;
-	position: relative;
-	top: 0;
-	left: 0;
-	color: #4B88D2;
-}
-
-.one{
-	z-index: 2;
-}
-
-.one2{
-	-webkit-transform: rotateX(180deg);
-	text-align: center;
-}
-
-.two-main{
-	position: relative;
-	margin-left: 270px;
-}
-
-.two-contain{
-	-webkit-perspective: 100;
-	position: absolute;
-	left: 5px;
-}
-
-.two-contain:hover .spin-two, .two-contain.hover .spin-two{
-	-webkit-transform: rotateX(180deg);
-	margin-left: -27px;
-}
-
-.spin-two{
-	transition: 0.6s;
-	-webkit-transform-style: preserve-3d;
-	position: relative;
-}
-
-.two, .two2{
-	-webkit-backface-visibility: hidden;
-	position: relative;
-	top: 0;
-	left: 0;
-	color: #4B88D2;
-}
-
-.two{
-	z-index: 2;
-}
-
-.two2{
-	-webkit-transform: rotateX(180deg);
-	text-align: center;
-}
-
-.three-main{
-	position: relative;
-	margin-left: 410px;
-}
-
-.three-contain{
-	-webkit-perspective: 100;
-	position: absolute;
-	left: 5px;
-}
-
-.three-contain:hover .spin-three, .three-contain.hover .spin-three{
-	-webkit-transform: rotateX(180deg);
-}
-
-.spin-three{
-	transition: 0.6s;
-	-webkit-transform-style: preserve-3d;
-	position: relative;
-}
-
-.three, .three2{
-	-webkit-backface-visibility: hidden;
-	position: relative;
-	top: 0;
-	left: 0;
-	color: #4B88D2;
-}
-
-.three{
-	z-index: 2;
-}
-
-.three2{
-	-webkit-transform: rotateX(180deg);
-	text-align: center;
-}*/
-
-
-
 
 
 .one a, .one2 a{
@@ -281,7 +199,6 @@ html body{
 	min-height: 900px;
 	display: -webkit-flex;
 	-webkit-justify-content: center;
-	padding: 5px;
 	width: 100%;
 }
 
@@ -307,4 +224,17 @@ html body{
 .left div img{
 	width: 100%;
 	max-width: 800px;
+}
+
+.blog{
+	-webkit-flex: 4 0 600px;
+	max-width: 800px;
+	margin: 5px;
+}
+
+.blog div{
+	border: 1px solid #CFCFCF;
+	margin: 15px;
+	box-shadow: 10px 10px 0px 0px #404040;
+	padding: 5px;
 }
