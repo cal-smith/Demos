@@ -2,6 +2,7 @@
 <html>
 <head>
 	<script src="jquery.min.js"></script>
+	<!--<script src="jquery.isotope.min.js"></script>-->
 </head>
 <!--
 todo!
@@ -10,7 +11,6 @@ have no defualt image subreddit? (prompt users to enter one).
 spinner when loading moar images
 click on an image to fullscreen mode go
 nsfw check box 
-remove the ability to fire the lode moar images twice -_-
 -->
 <style type="text/css">
 .images{
@@ -20,10 +20,15 @@ remove the ability to fire the lode moar images twice -_-
 	justify-content: space-around;
 }
 
-.images img{
+.image{
 	width: 30%;
 	height: 30%;
 	padding: 10px;
+}
+
+.image img{
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .nsfw{
@@ -33,10 +38,11 @@ remove the ability to fire the lode moar images twice -_-
 .controls{
 	position: fixed;
 	background: #fff;
-	width: 500px;
+	width: 600px;
 	height: 30px;
 	opacity: 0.6;
 	border: 1px solid #CFCFCF;
+	display: inline;
 }
 
 .controls:hover{
@@ -61,101 +67,174 @@ remove the ability to fire the lode moar images twice -_-
 	box-shadow: inset 0px 0px 0px 2px #000;
 }
 
+.hidden{
+	display: none;
+}
+
 form{
 	display: inline;
 }
+
+.title{
+	position: relative;
+	bottom: 80px;
+	left: 10px;
+	visibility: hidden;
+}
+
+.image img:hover + .title{
+	visibility: visible;
+}
+
 </style>
 <script type="text/javascript">
+/*
 if(!('contains' in String.prototype))// polyfill for chrome so str.contains actually works.
-  String.prototype.contains = function(str, startIndex) { return -1 !== String.prototype.indexOf.call(this, str, startIndex); };
-var sub = window.location.hash
+	String.prototype.contains = function(str, startIndex) { return -1 !== String.prototype.indexOf.call(this, str, startIndex); };
 
-var subreddits = sub.replace('#', ' ').trimLeft();
-console.log(subreddits);
-if(window.location.hash){
-	var url = "http://www.reddit.com/r/pics+"+ subreddits +".json"
-}else{
-	var url = "http://www.reddit.com/r/pics.json"
-}
-var datavar;
-datavar = {'limit': '50'};
-var loading = false;
-imgload(datavar);
-var after;
+var datavar; //le data variable
+datavar = {'limit': '50'};//party bitches
+var loading = false;//shits not loading
+var after;//yup
+var url; //global url. cause functions aint shit
 
-function imgload(datavar){
-	$.ajax({
-		url: url,
-		jsonp: "jsonp",
-		data: datavar,
-		dataType: "jsonp"
-	}).done(function(json){
-		loading = false;
-		console.log(json);
-		after = json.data.after;
-		for (var r = 0; r < json.data.children.length; r++){
-			console.log("done!");
-			var image = json.data.children[r].data.url;
-			if (image.contains("i.imgur")) {
-				if (json.data.children[r].data.over_18 === true) {
-					$('.images').append('<img class="nsfw" src='+ image +'>');
-					console.log("nsfw!");
-				}else if (json.data.children[r].data.over_18 === false){
-					$('.images').append('<img src='+ image +'>');
+$(document).ready(function() {
+	if(localStorage.getItem("includepics") == null){
+		localStorage.setItem("includepics", "true");
+		$('#picstrue').prop('checked', true);
+		console.log("null - set all true");
+		checkurl();
+	} else if (localStorage.getItem("includepics") == 'true'){
+		$('#picstrue').prop('checked', true);
+		console.log("true - set radio true");
+		checkurl();
+	} else if (localStorage.getItem("includepics") == 'false'){
+		$('#picsfalse').prop('checked', true);
+		console.log("false - set radio false");
+		//set include pics radio to false so we dont break the rest of the code -_-
+		checkurl();
+	}
+	function checkurl(){
+		var sub = window.location.hash; //gets the hash varible we built up earlyer
+		var subreddits = sub.replace('#', ' ').trimLeft();//removes the hash and trims it up
+		console.log(subreddits);//logging dis bitch
+		if (localStorage.getItem("includepics") == 'true') {
+			if(window.location.hash){
+				url = "http://www.reddit.com/r/pics+"+ subreddits +".json";
+				$('.alert').remove();
+				imgload(datavar);
+			}else{
+				url = "http://www.reddit.com/r/pics.json";
+				$('.alert').remove();
+				imgload(datavar);
+			}
+		} else if (localStorage.getItem("includepics") == 'false' && window.location.hash) {
+			url = "http://www.reddit.com/r/"+ subreddits +".json";
+			$('.alert').remove();
+			imgload(datavar);
+		} else{
+			$('.images').append('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
+		}
+	}
+
+	function imgload(datavar){
+		$.ajax({
+			url: url,
+			jsonp: "jsonp",
+			data: datavar,
+			dataType: "jsonp"
+		}).done(function(json){
+			loading = false;
+			console.log(json);
+			after = json.data.after;
+			for (var r = 0; r < json.data.children.length; r++){
+				console.log("done!");
+				var image = json.data.children[r].data.url;
+				var subreddit = json.data.children[r].data.subreddit;
+				var title = json.data.children[r].data.title;
+				if (image.contains("i.imgur")) {
+					if (json.data.children[r].data.over_18 === true) {
+						$('.images').append('<div class="image '+ subreddit +'"><h1>'+ title +'</h1><img class="nsfw" src='+ image +'></div>');
+						console.log("nsfw!");
+					}else if (json.data.children[r].data.over_18 === false){
+						$('.images').append('<div class="image '+ subreddit +'"><h1>'+ title +'</h1><img src='+ image +'></div>');
+					}
 				}
+			}
+			
+		});
+	}
+	$('#addsub').submit(function() {
+		var sub = document.getElementById("subname").value;
+		if (window.location.hash){
+			window.location.hash += "+" + sub;
+			checkurl();
+			return false;
+		} else{
+			window.location.hash += sub;
+			checkurl();
+			return false;
+		}
+	});
+
+	function loadmore(){
+		console.log(after);
+		datavar = {'limit': '50', 'after':after};
+		imgload(datavar);
+	}
+
+	$(window).scroll(function(){
+		if($(window).scrollTop()==$(document).height()-$(window).height()){
+			console.log("bottom!");
+			if (loading == false){
+				loadmore();	
+				loading = true;
+			} else if (loading == true){
+				console.log("loading...");
 			}
 		}
 	});
-}
-function addsub(){
-	var sub = document.getElementById("addsub").value;
-	if (window.location.hash){
-		window.location.hash += "+" + sub;
-	} else{
-		window.location.hash += sub;
-	}
-}
-
-function loadmore(){
-	console.log(after);
-	datavar = {'limit': '50', 'after':after};
-	imgload(datavar);
-}
-
-$(window).scroll(function(){
-	if($(window).scrollTop()==$(document).height()-$(window).height()){
-		console.log("bottom!");
-		if (loading == false){
-			loadmore();	
-			loading = true;
-		} else if (loading == true){
-			console.log("loading...");
-		}
-	}
+	$( "#picstrue" ).click(function(){
+		localStorage.setItem("includepics", "true");
+		$( ".pics" ).removeClass( "hidden" );
+		$('.alert').remove();
+		checkurl();
+	});
+	$( "#picsfalse" ).click(function(){
+		localStorage.setItem("includepics", "false");
+		$( ".pics" ).addClass( "hidden" );
+		$('.images').prepend('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
+		checkul();
+	});//remove /r/pics content
 });
+*/
 </script>
 <body>
 	<div class="controls">
-		<span>controls:</span>
-		<label for="nsfw"><input type="checkbox" id="nsfw" name="nsfw" disabled="disabled"/>Enable NSWF?</label>
+		<span> controls:</span>
+		<label for="nsfw"><input type="checkbox" id="nsfw" name="nsfw"/>Enable NSWF?</label>
 		<span>|</span>
-		<form name="addsub" action="javascript:addsub();">
-			<input type="text" id="addsub" name="addsub" placeholder="Add Subreddits">
+		<span>Include /r/pics?</span>
+		<label for="picstrue"><input type="radio" id="picstrue" name="pics" />true</label>
+		<label for="picsfalse"><input type="radio" id="picsfalse" name="pics" />false</label>
+		<span>|</span>
+		<form name="addsub" id="addsub" action="">
+			<input type="text" id="subname" name="subname" placeholder="Add Subreddits">
 			<input type="submit" vaue="Add">
 		</form>
 	</div>
-	<div class="images">
-		<!--<img src='http://placehold.it/350'>
-		<img src='http://placehold.it/700'>
-		<img src='http://placehold.it/650x500'>
-		<img src='http://placehold.it/648x650'>
-		<img src='http://placehold.it/350'>
-		<img src='http://placehold.it/700'>
-		<img src='http://placehold.it/650x500'>
-		<img src='http://placehold.it/648x650'>
-		<img src='http://placehold.it/350'>
-		<img src='http://placehold.it/700'>
-		<img src='http://placehold.it/650x500'>
-		<img src='http://placehold.it/648x650'>-->
+	<div class="images" id="images">
+		<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/700'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/650x500'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/700'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/650x500'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/700'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/650x500'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>
 	</div>
 </body>
