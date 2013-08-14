@@ -13,11 +13,16 @@ click on an image to fullscreen mode go
 nsfw check box 
 -->
 <style type="text/css">
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+body{
+	font-family: 'Oxygen', sans-serif;
+}
 .images{
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
+	z-index: 1;
 }
 
 .image{
@@ -25,6 +30,7 @@ nsfw check box
 	height: 30%;
 	padding: 10px;
 	position: relative;
+	z-index: 1l
 }
 
 .title{
@@ -32,6 +38,8 @@ nsfw check box
 	margin-left: 5px;
 	visibility: hidden;
 	position: absolute;
+	font-size: 20px;
+	padding-right: 5%;
 	color: #FFF;
 	text-shadow: -1px -1px 0 #000, 
 				 1px -1px 0 #000, 
@@ -55,11 +63,13 @@ nsfw check box
 .controls{
 	position: fixed;
 	background: #fff;
-	width: 600px;
+	width: 650px;
+	padding-left: 5px;
 	height: 30px;
 	opacity: 0.6;
 	border: 1px solid #CFCFCF;
 	display: inline;
+	z-index: 99;
 }
 
 .controls:hover{
