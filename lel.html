@@ -147,6 +147,7 @@ $(document).ready(function() {
 		} else if (localStorage.getItem("includepics") == 'false' && window.location.hash) {
 			url = "http://www.reddit.com/r/"+ subreddits +".json";
 			$('.alert').remove();
+			$( ".pics" ).remove();
 			imgload(datavar);
 		} else{
 			$('.images').append('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
@@ -213,13 +214,13 @@ $(document).ready(function() {
 	});
 	$( "#picstrue" ).click(function(){
 		localStorage.setItem("includepics", "true");
-		$( ".pics" ).removeClass( "hidden" );
+		$( ".image" ).remove();
 		$('.alert').remove();
 		checkurl();
 	});
 	$( "#picsfalse" ).click(function(){
 		localStorage.setItem("includepics", "false");
-		$( ".pics" ).addClass( "hidden" );
+		$( ".image" ).remove();
 		$('.images').prepend('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
 		checkul();
 	});//remove /r/pics content
