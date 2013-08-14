@@ -24,6 +24,23 @@ nsfw check box
 	width: 30%;
 	height: 30%;
 	padding: 10px;
+	position: relative;
+}
+
+.title{
+	bottom: 1px;
+	margin-left: 5px;
+	visibility: hidden;
+	position: absolute;
+	color: #FFF;
+	text-shadow: -1px -1px 0 #000, 
+				 1px -1px 0 #000, 
+				 -1px 1px 0 #000, 
+				 1px 1px 0 #000;
+}
+
+.image img:hover + .title, .title:hover{
+	visibility: visible;
 }
 
 .image img{
@@ -75,20 +92,9 @@ form{
 	display: inline;
 }
 
-.title{
-	position: relative;
-	bottom: 80px;
-	left: 10px;
-	visibility: hidden;
-}
-
-.image img:hover + .title{
-	visibility: visible;
-}
-
 </style>
 <script type="text/javascript">
-/*
+
 if(!('contains' in String.prototype))// polyfill for chrome so str.contains actually works.
 	String.prototype.contains = function(str, startIndex) { return -1 !== String.prototype.indexOf.call(this, str, startIndex); };
 
@@ -144,6 +150,7 @@ $(document).ready(function() {
 			data: datavar,
 			dataType: "jsonp"
 		}).done(function(json){
+			$('.alert').remove();
 			loading = false;
 			console.log(json);
 			after = json.data.after;
@@ -154,10 +161,10 @@ $(document).ready(function() {
 				var title = json.data.children[r].data.title;
 				if (image.contains("i.imgur")) {
 					if (json.data.children[r].data.over_18 === true) {
-						$('.images').append('<div class="image '+ subreddit +'"><h1>'+ title +'</h1><img class="nsfw" src='+ image +'></div>');
+						$('.images').append('<div class="image '+ subreddit +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>');
 						console.log("nsfw!");
 					}else if (json.data.children[r].data.over_18 === false){
-						$('.images').append('<div class="image '+ subreddit +'"><h1>'+ title +'</h1><img src='+ image +'></div>');
+						$('.images').append('<div class="image '+ subreddit +'"><img src='+ image +'><h1 class="title">'+ title +'</h1></div>');
 					}
 				}
 			}
@@ -207,7 +214,7 @@ $(document).ready(function() {
 		checkul();
 	});//remove /r/pics content
 });
-*/
+
 </script>
 <body>
 	<div class="controls">
@@ -224,7 +231,7 @@ $(document).ready(function() {
 		</form>
 	</div>
 	<div class="images" id="images">
-		<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
+		<!--<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
 		<div class="image"><img src='http://placehold.it/700'><h1 class="title">Title</h1></div>
 		<div class="image"><img src='http://placehold.it/650x500'><h1 class="title">Title</h1></div>
 		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>
@@ -235,6 +242,6 @@ $(document).ready(function() {
 		<div class="image"><img src='http://placehold.it/350'><h1 class="title">Title</h1></div>
 		<div class="image"><img src='http://placehold.it/700'><h1 class="title">Title</h1></div>
 		<div class="image"><img src='http://placehold.it/650x500'><h1 class="title">Title</h1></div>
-		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>
+		<div class="image"><img src='http://placehold.it/648x650'><h1 class="title">Title</h1></div>-->
 	</div>
 </body>
