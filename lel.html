@@ -114,7 +114,7 @@ var loading = false;//shits not loading
 var after;//yup
 var url; //global url. cause functions aint shit
 
-$(document).ready(function() {
+$(document).ready(function() {//add a check for /false or /true and set the includepics var appropriatly
 	if(localStorage.getItem("includepics") == null){
 		localStorage.setItem("includepics", "true");
 		$('#picstrue').prop('checked', true);
@@ -130,6 +130,7 @@ $(document).ready(function() {
 		//set include pics radio to false so we dont break the rest of the code -_-
 		checkurl();
 	}
+	
 	function checkurl(){
 		var sub = window.location.hash; //gets the hash varible we built up earlyer
 		var subreddits = sub.replace('#', ' ').trimLeft();//removes the hash and trims it up
@@ -216,14 +217,28 @@ $(document).ready(function() {
 		localStorage.setItem("includepics", "true");
 		$( ".image" ).remove();
 		$('.alert').remove();
+		//set the window to top
 		checkurl();
 	});
 	$( "#picsfalse" ).click(function(){
 		localStorage.setItem("includepics", "false");
 		$( ".image" ).remove();
 		$('.images').prepend('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
+		//set the window to top
 		checkul();
-	});//remove /r/pics content
+	});
+	/*$("nsfw:checked"){
+		//display: block;
+	}
+	$("nsfw:unchecked"){
+		//display: none;
+	}*/
+
+	$("#reload").click(function(){//remove the auto-reload on adding subreddits?
+		//set the window back to top
+		checkurl();
+	});
+
 });
 
 </script>
