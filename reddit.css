@@ -1,0 +1,93 @@
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+body{
+	font-family: 'Oxygen', sans-serif;
+}
+
+.images{
+	width: 100%;
+	display: flex;
+	display: flexbox;
+	flex-flow: row wrap;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	z-index: 1;
+}
+
+.image{
+	width: 30%;
+	height: 30%;
+	padding: 10px;
+	position: relative;
+	z-index: 1;
+	float: left;
+}
+
+.title{
+	bottom: 1px;
+	margin-left: 5px;
+	visibility: hidden;
+	position: absolute;
+	font-size: 20px;
+	padding-right: 5%;
+	color: #FFF;
+	text-shadow: -1px -1px 0 #000, 
+				 1px -1px 0 #000, 
+				 -1px 1px 0 #000, 
+				 1px 1px 0 #000;
+}
+
+.image img:hover + .title, .title:hover{
+	visibility: visible;
+}
+
+.image img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.nsfw{
+	display: none;
+}
+
+.controls{
+	position: fixed;
+	background: #fff;
+	width: 700px;
+	padding-left: 5px;
+	height: 30px;
+	opacity: 0.6;
+	border: 1px solid #CFCFCF;
+	display: inline;
+	z-index: 99;
+}
+
+.controls:hover{
+	opacity: 1;
+	box-shadow: 5px 5px 0px 0px #404040;
+}
+
+.controls input[type=submit]{
+	border: none;
+	background: #17479B;
+	padding: 4px;
+	color: #fff;
+	font-size: 13px;
+}
+
+.controls input[type=submit]:hover{
+	background: #133777;
+}
+
+.controls input[type=submit]:active{
+	-webkit-box-shadow: inset 0px 0px 1px 5px #000;
+	box-shadow: inset 0px 0px 0px 2px #000;
+}
+
+.hidden{
+	display: none;
+}
+
+form{
+	display: inline;
+}
