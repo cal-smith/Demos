@@ -2,11 +2,9 @@
 if(!('contains' in String.prototype))// polyfill for chrome so str.contains actually works.
 	String.prototype.contains = function(str, startIndex) { return -1 !== String.prototype.indexOf.call(this, str, startIndex); };
 
-var datavar; //le data variable
-datavar = {'limit': '50'};//party bitches
+var datavar = {'limit': '50'};//party bitches
 var loading = false;//shits not loading
 var after;//yup
-var url; //global url. cause functions aint shit
 
 $(document).ready(function() {//add a check for /false or /true and set the includepics var appropriatly
 	if(localStorage.getItem("includepics") == null){
@@ -31,25 +29,25 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 		console.log(subreddits);//logging dis bitch
 		if (localStorage.getItem("includepics") == 'true') {
 			if(window.location.hash){
-				url = "http://www.reddit.com/r/pics+"+ subreddits +".json";
+				var url = "http://www.reddit.com/r/pics+"+ subreddits +".json";
 				$('.alert').remove();
-				imgload(datavar);
+				imgload(url);
 			}else{
-				url = "http://www.reddit.com/r/pics.json";
+				var url = "http://www.reddit.com/r/pics.json";
 				$('.alert').remove();
-				imgload(datavar);
+				imgload(url);
 			}
 		} else if (localStorage.getItem("includepics") == 'false' && window.location.hash) {
-			url = "http://www.reddit.com/r/"+ subreddits +".json";
+			var url = "http://www.reddit.com/r/"+ subreddits +".json";
 			$('.alert').remove();
 			$( ".pics" ).remove();
-			imgload(datavar);
+			imgload(url);
 		} else{
 			$('.images').append('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
 		}
 	}
 
-	function imgload(datavar){
+	function imgload(url){
 		$.ajax({
 			url: url,
 			jsonp: "jsonp",
@@ -68,10 +66,8 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 				if (image.contains("i.imgur")) {
 					if (json.data.children[r].data.over_18 === true) {
 						finalhtml += '<div class="image '+ subreddit +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>';
-						//$('.images').append('<div class="image '+ subreddit +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>');
 					}else if (json.data.children[r].data.over_18 === false){
 						finalhtml += '<div class="image '+ subreddit +'"><img src='+ image +'><h1 class="title">'+ title +'</h1></div>';
-						//$('.images').append('<div class="image '+ subreddit +'"><img src='+ image +'><h1 class="title">'+ title +'</h1></div>');
 					}
 				}
 			}
@@ -79,6 +75,7 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 			
 		});
 	}
+
 	$('#addsub').submit(function() {
 		var sub = document.getElementById("subname").value;
 		if (window.location.hash){
@@ -92,23 +89,20 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 		}
 	});
 
-	function loadmore(){
-		console.log(after);
-		datavar = {'limit': '50', 'after':after};
-		checkurl();
-	}
-
 	$(window).scroll(function(){
 		if($(window).scrollTop()==$(document).height()-$(window).height()){
 			console.log("bottom!");
 			if (loading == false){
-				loadmore();	
+				console.log(after);
+				datavar = {'limit': '50', 'after':after};
+				checkurl();
 				loading = true;
 			} else if (loading == true){
 				console.log("loading...");
 			}
 		}
 	});
+
 	$( "#picstrue" ).click(function(){
 		localStorage.setItem("includepics", "true");
 		$( ".image" ).remove();
@@ -116,13 +110,15 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 		//set the window to top
 		checkurl();
 	});
+
 	$( "#picsfalse" ).click(function(){
 		localStorage.setItem("includepics", "false");
 		$( ".image" ).remove();
 		$('.images').prepend('<div class="image alert" id="plz"><h1>Add Subreddits plz</h1></div>');
 		//set the window to top
-		checkul();
+		checkurl();
 	});
+
 	/*$("nsfw:checked"){
 		//display: block;
 	}
@@ -134,5 +130,32 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 		//set the window back to top
 		checkurl();
 	});
+
+	/*
+	window.scroll
+		pagehieght = display area
+			when .images go 100px above window.top
+				set div height to image height
+				remove image
+				set visibility to hidden
+			when .images come within 100px of window.top
+				set visibility to show
+				add image back (grab the imgur url from the array of images that imgload will build)
+			when .images go 100px below window.bottom
+				remove image
+				setvisibility to hidden
+			when .images come within 100px of window.bottom
+				setvisibility to show
+				add image back
+
+
+	*/
+
+
+
+
+
+
+
 
 });
