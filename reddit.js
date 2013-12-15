@@ -6,6 +6,21 @@ var datavar = {'limit': '50'};//party bitches
 var loading = false;//shits not loading
 var after;//yup
 var imagearray = [];
+var db;
+var request = window.indexedDB.open("images");
+
+request.onsuccess = function(event){
+	console.log("made indexedDB");
+	db = request.result;
+}
+
+request.onupgradeneeded = function(event){
+	var db = event.target.result;
+	var objectStore = db.createObjectStore("image", {keyPath: "id"});
+	objectStore.createIndex("url", "url", {unique:false});
+	objectStore.createIndex("subreddit", "subreddit", {unique:false});
+	objectStore.createIndex("title", "title", {unique:false});
+}
 
 $(document).ready(function() {//add a check for /false or /true and set the includepics var appropriatly
 	if(localStorage.getItem("includepics") == null){//checks if /r/pics is included/if this is first visit, and sets /r/pics to be included
@@ -67,7 +82,12 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 				var id = json.data.children[r].data.id; //sets a nice reference to the reddit id
 				if (image.contains("i.imgur")) { //checks if the url points to imgur
 					imagearray.push({'id':id, 'url':image, 'subreddit':subreddit, 'title':title}); //adds valid images to the imagearray
-					
+					var imageDB = [{'id':id, 'url':image, 'subreddit':subreddit, 'title':title}];
+					var transaction = db.transaction("image", "readwrite");
+					var objectStore = transaction.objectStore("image");
+					var request = objectStore.add(imageDB[0]);
+
+					localStorage.setItem(id, "true");
 
 					if (json.data.children[r].data.over_18 === true) {
 						finalhtml += '<div class="image '+ subreddit +'" id="'+ id +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>';
@@ -118,7 +138,7 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 		<div> should be referenced by reddit id, as should the image.
 		each <div> should be set to the same height as the image that will be deleted (element.image.heigt, div.height set element.image.height).
 			of course we could also just set the <div> to the image's heght in the first place, and then continue simply removeing the <img>
-		basically we are going to chew through cpu cycles to save on memory. costly on the processing front, but should leave everyone with a snappyer experiance.
+		basically we are going to chew through cpu cycles to save on memory. costly on the processing front, but should leave everyone with a snappier experiance.
 
 
 
