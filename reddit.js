@@ -7,7 +7,7 @@ var loading = false;//shits not loading
 var after;//yup
 var imagearray = [];
 var db;
-var request = window.indexedDB.open("images");
+var request = window.indexedDB.open("imagedb");
 
 request.onsuccess = function(event){
 	console.log("made indexedDB");
@@ -17,9 +17,6 @@ request.onsuccess = function(event){
 request.onupgradeneeded = function(event){
 	var db = event.target.result;
 	var objectStore = db.createObjectStore("image", {keyPath: "id"});
-	objectStore.createIndex("url", "url", {unique:false});
-	objectStore.createIndex("subreddit", "subreddit", {unique:false});
-	objectStore.createIndex("title", "title", {unique:false});
 }
 
 $(document).ready(function() {//add a check for /false or /true and set the includepics var appropriatly
