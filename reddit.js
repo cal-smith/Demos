@@ -83,13 +83,10 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 					var transaction = db.transaction("image", "readwrite");
 					var objectStore = transaction.objectStore("image");
 					var request = objectStore.add(imageDB[0]);
-
-					localStorage.setItem(id, "true");
-
 					if (json.data.children[r].data.over_18 === true) {
-						finalhtml += '<div class="image '+ subreddit +'" id="'+ id +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>';
+						finalhtml += '<div class="image '+ subreddit +" "+ id +'" id="'+ id +'"><img class="nsfw" src='+ image +'><h1 class="title">'+ title +'</h1></div>';
 					}else if (json.data.children[r].data.over_18 === false){
-						finalhtml += '<div class="image '+ subreddit +'" id="'+ id +'"><img src='+ image +'><h1 class="title">'+ title +'</h1></div>';
+						finalhtml += '<div class="image '+ subreddit +" "+ id +'" id="'+ id +'"><img src='+ image +'><h1 class="title">'+ title +'</h1></div>';
 					}
 				}
 			}
@@ -110,6 +107,19 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 			return false;
 		}
 	});
+	//!!!!!
+	loop{
+		loop_over_indexdb{
+			when(id) == 100px + above_window && hidden == false{
+				remove image;
+				hidden == true
+			}
+			when(id) == 100px + above_window && hidden == true{
+				add image;
+				hidden == false
+			}
+		} 
+	}
 
 	$(window).scroll(function(){
 		if($(window).scrollTop()==$(document).height()-$(window).height()){
@@ -123,12 +133,12 @@ $(document).ready(function() {//add a check for /false or /true and set the incl
 				console.log("loading...");
 			}
 		}
-		if($('.image').scrollTop() <= 0){
-			//console.log("asd")
-			var height = $(this).height();
-			$(this).remove();
-			//console.log(height);
-		}/*on window scroll, check to see if a image in the iamgearray is obscued by window (element.pos > top of window/viewport) 
+
+		if($(id).offset().top < $(window).scrollTop()){
+			console.log("a");
+			console.log($(".image").attr("class"));
+		}
+		/*on window scroll, check to see if a image in the iamgearray is obscued by window (element.pos > top of window/viewport) 
 		at the same time check if a image in the image array is comeing back in view (element.pos > 10px from the top of the window/viewport)
 		if the image is obscured delete the <img> from the <div>
 		if the image is comeing back down, append it back to the <div>(and remove the div height)
