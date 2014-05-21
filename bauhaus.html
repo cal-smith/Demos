@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bauhaus</title>
+    <style>
+    @import url(http://fonts.googleapis.com/css?family=PT+Mono);
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    .test{
+        background: url(http://3.bp.blogspot.com/_Jb1FJ3iMteo/TQdVsdy4zoI/AAAAAAAAAaM/-IzZDuiQwsQ/s1600/Theo_van_Doesburg_Counter-CompositionV_%25281924%2529.jpg);
+        background-size: cover;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        -webkit-filter: blur(10px);
+    }
+    .test::before{
+        content: '';
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 200px;
+        box-shadow: 0 0 100px 100px #000;
+    }
+    .head{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        justify-content: center;
+    }
+    h1{
+        font-family: 'PT Mono', sans-serif;
+        font-size: 10em;
+        /*colors
+        color: rgb(227, 70, 55);
+        color: rgb(241, 207, 48);
+        color: rgb(58, 54, 104);*/
+        color: rgb(38, 42, 45);
+        text-shadow: 10px 10px rgb(227, 70, 55), 20px 20px rgb(241, 207, 48);
+    }
+    </style>
+</head>
+<body>
+    <div class="test"></div>
+    <div class="head">
+        <h1>Bauhaus</h1>
+    </div
+</body>
+</html>

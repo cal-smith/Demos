@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            font-family: sans-serif;
+            -webkit-perspective: 50px;
+            -webkit-transform-style: preserve-3d;
+            color: #6ECFA3;
+        }
+        
+        span, h1{
+            font-size: 5em;
+        }
+        
+        h1{
+            text-shadow: 1px 1px rgba(0, 0, 0, 0.6),
+                         2px 2px rgba(0, 0, 0, 0.5),
+                         3px 3px rgba(0, 0, 0, 0.4),
+                         4px 4px rgba(0, 0, 0, 0.3),
+                         5px 5px rgba(0, 0, 0, 0.2),
+                         6px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        span{
+            opacity: 0.8;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.68);
+        }
+        
+        .hold{
+            display: flex;
+        }
+        
+        .left{
+            -webkit-transform: rotateY(90deg) translateZ(20px);
+            background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0)));
+            width: 100px;
+            position: absolute;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+        
+        .bottom{
+            -webkit-transform: rotateX(-90deg) translateZ(20px);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0)));
+            width: 100%;
+            position: absolute;
+            height: 100px;
+            bottom: -42px;
+        }
+        
+        .right{
+            -webkit-transform: rotateY(-90deg) translateZ(20px);
+            background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65)));
+            width: 100px;
+            position: absolute;
+            height: 100%;
+            right: 0;
+            top: 0;
+        }
+        
+        .back{
+            -webkit-transform: translateZ(-76px);
+            padding: 10px;
+            box-shadow: 1px 1px rgba(0,0,0,1.0), 
+                        2px 2px rgba(0,0,0,0.9),
+                        3px 3px rgba(0,0,0,0.8),
+                        4px 4px rgba(0,0,0,0.7),
+                        5px 5px rgba(0,0,0,0.6),
+                        6px 6px rgba(0,0,0,0.5),
+                        7px 7px rgba(0,0,0,0.4),
+                        8px 8px rgba(0,0,0,0.3),
+                        9px 9px rgba(0,0,0,0.2);
+        }
+        
+        .front{
+            -webkit-transform: translateZ(10px);
+            margin-left: 300px;
+            padding: 10px;
+            box-shadow: -1px -1px rgba(0,0,0,1.0), 
+                        -2px -2px rgba(0,0,0,0.9), 
+                        -3px -3px rgba(0,0,0,0.8), 
+                        -4px -4px rgba(0,0,0,0.7), 
+                        -5px -5px rgba(0,0,0,0.6), 
+                        -6px -6px rgba(0,0,0,0.5), 
+                        -7px -7px rgba(0,0,0,0.4), 
+                        -8px -8px rgba(0,0,0,0.3), 
+                        -9px -9px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>DEPTH</h1>
+        <div class="left"></div>
+        <div class="bottom"></div>
+        <div class="right"></div>
+        <div class="hold">
+            <div class="back">
+                <span>Its all about...</span>
+            </div>
+            <div class="front">
+                <span>...space</span>
+            </div>
+        </div>
+</body>
+</html>

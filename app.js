@@ -1,14 +1,14 @@
 var flickr = "http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=d00c131296743ab4a254eae6250a7fe8&user_id=61402163@N02&per_page=5&format=json&jsoncallback=?";
 var insta = "https://api.instagram.com/v1/users/1853464/media/recent?count=5&access_token=1853464.f34c5fd.a79e763765ef4151816378b13762166e&callback=?";
 
-$.getJSON( flickr, {
+$.getJSON(flickr, {
 	format: "json"
-}).done(function(flickr_data){
+}).done(function (flickr_data) {
 	console.log("flickr got it");
 	console.log(flickr_data);
-	$.getJSON( insta,{
+	$.getJSON(insta, {
 		format: "json"
-	}).done(function(insta_data){
+	}).done(function (insta_data) {
 		console.log("insta got it");
 		console.log(insta_data);
 		for (var f = 0; f < flickr_data.photos.total; f++){
