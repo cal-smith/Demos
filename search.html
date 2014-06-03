@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title>Search</title>
+	<style type="text/css">
+		html{
+			font-size: 62.5%;
+		}
+
+		body{
+			font-family: "Helvetica Neue", sans-serif;
+			font-weight: lighter;
+		}
+
+		input:focus{
+			outline: none;
+		}
+
+		::-webkit-input-placeholder{
+			text-align: center;
+		}
+
+		.contain{
+			display: -webkit-flex;
+			-webkit-align-items: center;
+			-webkit-justify-content: center;
+			width: 100%;
+			height: 100%;
+		}
+
+		.search{
+			font-family: "Helvetica Neue", sans-serif;
+			font-weight: lighter;
+			font-size: 4rem;
+			max-width: 100%;
+			border: none;
+		}
+	</style>
+	<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function(event) {
+		document.getElementById("searchform").addEventListener("submit", function(event){
+			event.preventDefault();
+			var str = document.getElementById('search').value;
+			window.location = "https://www.google.ca/search?client=ChromeSafariFox&rls=en&q=" + encodeURI(str);
+		});
+	});
+	</script>
+</head>
+<body>
+	<div class="contain">
+		<form id="searchform">
+			<input id="search" class="search" type="text" placeholder="Search" autofocus="true">
+		</form>
+	</div>
+</body>
+</html>
