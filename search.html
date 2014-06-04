@@ -57,13 +57,17 @@
 		document.getElementById("searchform").addEventListener("submit", function(event){
 			event.preventDefault();
 			var str = document.getElementById('search').value;
-			if (str.match(/\.[a-z]+$/) || str.match(/^[a-zA-Z]+[:\/\/]+/)) {
+			if (str.match(/^[a-zA-Z]+[:\/\/]+/) || str.match(/\.[a-z]+$/) && !str.match(/^[?]+/)) {
 				if (!! str.match(/^[a-zA-Z]+\./)) {
 					window.location = "http://www." + str;
 				} else {
 					window.location = str;
 				}
 			} else {
+				if (str.match(/^[?]+/)){
+					str = str.slice(1);
+					str = str.trim();
+				}
 				window.location = "https://www.google.ca/search?client=ChromeSafariFox&rls=en&q=" + encodeURI(str);
 			}
 		});
