@@ -1,0 +1,48 @@
+<html>
+<head>
+	<script src="isomer.min.js"></script>
+	<style type="text/css">
+		body{
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="iso"></canvas>
+</body>
+<script type="text/javascript">
+	var elm = document.getElementById('iso');
+	elm.width = window.innerWidth;
+	elm.height = window.innerHeight;
+	var iso = new Isomer(document.getElementById('iso'));
+	var angle = 0;
+	var Shape = Isomer.Shape;
+	var Point = Isomer.Point;
+	var Path = Isomer.Path;
+	var Color = Isomer.Color;
+	var blue = new Color(50, 60, 160);
+
+	function frame(){
+		loop();
+		requestAnimationFrame(frame);
+	}
+
+	requestAnimationFrame(frame);
+
+	function loop(){
+		var cube = Shape.Prism(Point.ORIGIN, 5, 5, 5);
+		iso.add(Shape.Prism(Point.ORIGIN, elm.width, elm.width, 10).translate(0, 0, -10), blue);
+		iso.add(new Path([
+		  Point(0, 0, 0),
+		  Point(20, 0, 0),
+		  Point(20, 20, 0),
+		  Point(0, 20, 0)
+		]), new Color(50, 160, 60));
+		iso.add(cube);
+		//iso.add(cube.rotateZ(Point(2.5, 2.5, 0), angle).translate(0, 0, 5), blue);
+		angle += 2 * Math.PI / 60;
+	}
+	
+</script>
+</html>
