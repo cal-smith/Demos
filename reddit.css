@@ -1,6 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Oxygen);
 body{
 	font-family: 'Oxygen', sans-serif;
+	min-height: 5000px;
 }
 
 .images{
@@ -15,7 +16,7 @@ body{
 
 .image{
 	width: 30%;
-	height: 30%;
+	min-height: 120px;
 	padding: 10px;
 	position: relative;
 	z-index: 1;
@@ -52,8 +53,10 @@ body{
 .controls{
 	position: fixed;
 	background: #fff;
-	width: 700px;
+	min-width: 100px;
 	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
 	height: 30px;
 	opacity: 0.6;
 	border: 1px solid #CFCFCF;

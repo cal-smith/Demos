@@ -1,0 +1,10 @@
+
+.shape {
+    float: left;
+    width: 100%;
+    height: 100%;
+    shape-outside: polygon(nonzero, 0px 0px, 169px 50px, 194px 108px, 339px 136px, 514px 270px, 912px 273px, 912px 901px, -1px 894px);
+    background: url(square.jpg);
+    background-size: cover;
+    -webkit-clip-path: polygon(nonzero, 0px 0px, 169px 50px, 194px 108px, 339px 136px, 514px 270px, 912px 273px, 912px 901px, -1px 894px);
+}

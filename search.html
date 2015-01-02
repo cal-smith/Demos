@@ -56,14 +56,29 @@
 	document.addEventListener("DOMContentLoaded", function(event) {
 		document.getElementById("searchform").addEventListener("submit", function(event){
 			event.preventDefault();
+			/* 
+			custom search
+			r test = http://reddit.com/r/test
+			basically search shortcuts
+			*/
+			var custom = {
+				'?': 'https://www.google.ca/search?client=ChromeSafariFox&rls=en&q=%s',
+				'r': 'http://reddit.com/r/%s',
+				'w': 'http://en.wikipedia.org/w/index.php?search=%s',
+				'mdn': 'https://developer.mozilla.org/en-US/search?q=%s'
+			};
 			var str = document.getElementById('search').value;
-			if (str.match(/\.[a-z]+$/) || str.match(/^[a-zA-Z]+[:\/\/]+/)) {
+			if (str.match(/^[a-zA-Z]+[:\/\/]+/) || str.match(/\.[a-z]+$/) && !str.match(/^[?]+/)) {
 				if (!! str.match(/^[a-zA-Z]+\./)) {
-					window.location = "http://www." + str;
+					window.location = "http://" + str;
 				} else {
 					window.location = str;
 				}
 			} else {
+				if (str.match(/^[?]+/)){
+					str = str.slice(1);
+					str = str.trim();
+				}
 				window.location = "https://www.google.ca/search?client=ChromeSafariFox&rls=en&q=" + encodeURI(str);
 			}
 		});
