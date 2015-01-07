@@ -30,11 +30,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var words = txt.split(/\s|\r\n|\r|\n/);
 		info("formatting text");
 		words = words.map(function(e){
-			return e.toLowerCase().replace(/[^\w+]/g, " ").trim().split(" ")[0];
+			return e.toLowerCase().replace(/[\d+|\.]/g, " ").replace(/\.|\,|\'|\"/g,"").trim().split(" ")[0];
 		});
 		document.getElementById("stats").textContent += words.length + " individual words, ";
 		info("counting words");
 		for (var i = 0; i < words.length; i++) {
+			//isNaN("words") == true
+			//isNaN("1234") == false
 			if (!words[i].match(/\d/)) {
 				if (counts[words[i]] == null) {
 					counts[words[i]] = 1;
