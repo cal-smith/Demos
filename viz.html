@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+text {
+  font: 20px sans-serif;
+}
+
+body{
+	font-family: sans-serif;
+}
+
+.node:first-child circle {
+	fill: rgb(255, 255, 255) !important;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+var workers = [];
+document.addEventListener("DOMContentLoaded", function(event) {
+	var counts = {};
+	d3.text("comments.txt", function(e, txt){
+		info("getting comments");
+		var words = txt.split(/\s|\r\n|\r|\n/);
+		info("formatting text");
+		words = words.map(function(e){
+			return e.toLowerCase().replace(/[^\w+]/g, " ").trim().split(" ")[0];
+		});
+		document.getElementById("stats").textContent += words.length + " individual words, ";
+		info("counting words");
+		for (var i = 0; i < words.length; i++) {
+			if (!words[i].match(/\d/)) {
+				if (counts[words[i]] == null) {
+					counts[words[i]] = 1;
+				} else {
+					counts[words[i]]++;
+				}
+			}
+		}
+		document.getElementById("stats").textContent += Object.keys(counts).length + " unique words";
+		plot(counts, 3, 21);
+	});
+	document.getElementById('opts').addEventListener("submit", function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		var min = document.getElementById('min').value;
+		var amount = document.getElementById('amount').value;
+		plot(counts, min, amount);
+	});
+});
+
+function plot(uniques, minlen, amount) {
+	if (typeof amount === "undefined") { amount = 21; };
+	if (document.getElementsByClassName("bubble")[0]){
+		document.getElementsByClassName("bubble")[0].remove();
+	}
+	if (workers[0]) {
+		workers[0].terminate();
+		workers.pop();
+	}
+	info("culling results");
+	if (!window.Worker) {
+		var words = [];
+		var i = 0;
+		each(uniques, function(k, v){
+			if (k.length <= minlen) {
+				delete uniques.k;
+			} else {
+				words.push({word:k, value:v});
+			}
+			i++;
+			info(((i/Object.keys(uniques).length)*100).toString().slice(0,5));
+		});
+		cont(words);
+	} else {
+		var worker = new Worker("cull.js");
+		workers.push(worker);
+		worker.postMessage({data:uniques, minlen:minlen});
+		worker.onmessage = function(m){
+			if (m.data.status == "info") {
+				info(m.data.data);
+			}
+			if (m.data.status == "done") {
+				cont(m.data.data);
+			}
+		};
+	}
+	function cont(words){
+		info("sorting");
+		words = words.sort(function(a,b){return b.value - a.value;}).slice(0,amount);
+
+		info("plotting");
+		var diameter = 960,
+		    format = d3.format(",d"),
+		    color = d3.scale.category20c();
+
+		var bubble = d3.layout.pack()
+		    .sort(null)
+		    .size([diameter, diameter])
+		    .padding(1.5);
+
+		var svg = d3.select("body").append("svg")
+		    .attr("width", diameter)
+		    .attr("height", diameter)
+		    .attr("class", "bubble");
+
+		var node = svg.selectAll(".node")
+			.data(bubble.nodes({children: words}))
+			.enter().append("g")
+		 	.attr("class", "node")
+		  	.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+		node.append("title").text(function(d){ return d.word; });
+		node.append("circle")
+			.attr("r", function(d) { return d.r; })
+			.style("fill", function(d) { return color(d.word); });;
+		node.append("text")
+		  .attr("dy", ".3em")
+		  .style("text-anchor", "middle")
+		  .text(function(d) { return d.word; });
+		node.append("text")
+			.attr("dy", ".3em")
+			.style("text-anchor", "middle")
+			.attr("transform", "translate(0,20)")
+			.text(function(d) { return d.value; });
+		d3.select(self.frameElement).style("height", diameter + "px");
+	}
+}
+
+function info(a){
+	document.getElementById('info').textContent = a;
+}
+</script>
+<h1>Most common words in /r/pics comments</h1>
+<p id="stats">1000 comments, </p>
+<p id="info"></p>
+<form id="opts">
+	<label>Minimum word length: <input type="number" value="3" id="min"/></label>
+	<label>Number of words: <input type="number" value="21" id="amount"/></label>
+	<input type="submit" value="Update" />
+</form>
+</body>
+</html>
