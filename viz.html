@@ -14,6 +14,10 @@ body{
 	fill: rgb(255, 255, 255) !important;
 }
 
+.node:first-child text {
+	display: none;
+}
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -47,12 +51,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		event.preventDefault();
 		var min = document.getElementById('min').value;
 		var amount = document.getElementById('amount').value;
-		plot(counts, min, amount);
+		var common = !document.getElementById("common").checked
+		plot(counts, min, amount, common);
 	});
 });
 
-function plot(uniques, minlen, amount) {
+function plot(uniques, minlen, amount, common) {
 	if (typeof amount === "undefined") { amount = 21; };
+	if (typeof common === "undefined") { common = true; };
 	if (document.getElementsByClassName("bubble")[0]){
 		document.getElementsByClassName("bubble")[0].remove();
 	}
@@ -62,22 +68,48 @@ function plot(uniques, minlen, amount) {
 	}
 	info("culling results");
 	if (!window.Worker) {
-		var words = [];
+		var words = []
+		var common = {"the":"the", "be":"be", "to":"to", "of":"of", 
+					"and":"and", "a":"a", "in":"in", "that":"that", 
+					"have":"have", "i":"i", "it":"it", "for":"for", 
+					"not":"not", "on":"on", "with":"with", "he":"he", 
+					"as":"as", "you":"you", "do":"do", "at":"at", "this":"this", 
+					"but":"but", "his":"his", "by":"by", "from":"from", 
+					"they":"they", "we":"we", "say":"say", "her":"her", 
+					"she":"she", "or":"or", "an":"an", "will":"will", 
+					"my":"my", "one":"one", "all":"all", "would":"would", 
+					"there":"there", "their":"their", "what":"what", 
+					"so":"so", "up":"up", "out":"out", "if":"if", "about":"about", 
+					"who":"who", "get":"get", "which":"which", "go":"go", 
+					"me":"me", "when":"when", "make":"make", "can":"can", 
+					"like":"like", "time":"time", "no":"no", "just":"just", 
+					"him":"him", "know":"know", "take":"take", "people":"people", 
+					"into":"into", "year":"year", "your":"your", "good":"good", 
+					"some":"some", "could":"could", "them":"them", "see":"see", 
+					"other":"other", "than":"than", "then":"then", "now":"now", 
+					"look":"look", "only":"only", "come":"come", "its":"its", 
+					"over":"over", "think":"think", "also":"also", "back":"back", 
+					"after":"after", "use":"use", "two":"two", "how":"how", 
+					"our":"our", "work":"work", "first":"first", "well":"well", 
+					"way":"way", "even":"even", "new":"new", "want":"want", 
+					"because":"because", "any":"any", "these":"these", "give":"give", 
+					"day":"day", "most":"most", "us":"us"};
+		keys = Object.keys(uniques);
 		var i = 0;
-		each(uniques, function(k, v){
-			if (k.length <= minlen) {
-				delete uniques.k;
-			} else {
+		for (var i = 0; i < keys.length; i++) {
+			var k = keys[i];
+			var v = m.data.data[keys[i]];
+			if (!(m.data.common == true && k in common || k.length < m.data.minlen)){
 				words.push({word:k, value:v});
 			}
 			i++;
-			info(((i/Object.keys(uniques).length)*100).toString().slice(0,5));
-		});
+			info("culled: "+((i/keys.length)*100).toString().slice(0,5)+"%");
+		}
 		cont(words);
 	} else {
 		var worker = new Worker("cull.js");
 		workers.push(worker);
-		worker.postMessage({data:uniques, minlen:minlen});
+		worker.postMessage({data:uniques, minlen:minlen, common:common});
 		worker.onmessage = function(m){
 			if (m.data.status == "info") {
 				info(m.data.data);
@@ -139,6 +171,7 @@ function info(a){
 <form id="opts">
 	<label>Minimum word length: <input type="number" value="3" id="min"/></label>
 	<label>Number of words: <input type="number" value="21" id="amount"/></label>
+	<label>Allow common words? <input type="checkbox" id="common"/></label>
 	<input type="submit" value="Update" />
 </form>
 </body>
