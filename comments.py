@@ -6,7 +6,7 @@ stream = praw.helpers.comment_stream(r, "pics")
 io = StringIO()
 #io.write("[")
 f = open("comments.txt", "a")
-total = 1000
+total = 2000
 i = 0
 for x in stream:
 	#json.dump({"body":x.body}, io)
