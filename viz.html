@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			}
 		}
 		document.getElementById("stats").textContent += Object.keys(counts).length + " unique words";
-		plot(counts, 3, 21);
+		plot(counts, 3, 20);
 	});
 	document.getElementById('opts').addEventListener("submit", function(event){
 		event.stopPropagation();
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function plot(uniques, minlen, amount, common) {
-	if (typeof amount === "undefined") { amount = 21; };
+	if (typeof amount === "undefined") { amount = 20; };
 	if (typeof common === "undefined") { common = true; };
 	if (document.getElementsByClassName("bubble")[0]){
 		document.getElementsByClassName("bubble")[0].remove();
@@ -170,7 +170,7 @@ function info(a){
 <p id="info"></p>
 <form id="opts">
 	<label>Minimum word length: <input type="number" value="3" id="min"/></label>
-	<label>Number of words: <input type="number" value="21" id="amount"/></label>
+	<label>Number of words: <input type="number" value="20" id="amount"/></label>
 	<label>Allow common words? <input type="checkbox" id="common"/></label>
 	<input type="submit" value="Update" />
 </form>
