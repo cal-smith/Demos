@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		words = words.map(function(e){//peliminary culling/data normilization. A lot of pointless stuff gets reduced to "", which is kinda nice.
 			var a = e.toLowerCase()
 			.replace(/[h|f]t+ps?/g, "")//removes http/https/ftp
-			.replace(/www\.?/g, "")//removes 'www.', other prefixes are likely either words, or will be eliminated later
+			.replace(/www\.?|\.com/g, "")//removes 'www.', other prefixes are likely either words, or will be eliminated later
 			.replace(/\/?(r|u)\/\w+/g,"")//removes /r/ or /u/ and the username/subreddit
 			.replace(/\d+|\\|\/|\&(gt|lt|amp)\;/g, " ")//replaces digits and slashes with spaces, also &gt|lt|amp;
 			.replace(/\.|\,|\-|\_|\*|\+|\?\|/g, " ")//replaces various formatting characters with spaces
