@@ -27,6 +27,7 @@ onmessage = function(m){
 				"because":"because", "any":"any", "these":"these", "give":"give", 
 				"day":"day", "most":"most", "us":"us"};
 	var keys = m.data.data
+	var len = Object.keys(keys).length;
 	var i = 0;
 	for (k in keys) {
 		var v = keys[k];
@@ -34,7 +35,7 @@ onmessage = function(m){
 			words.push({word:k, value:v});
 		}
 		i++;
-		postMessage({status:"info", data:"culled: "+((i/keys.length)*100).toString().slice(0,5)+"%"});
+		postMessage({status:"info", data:"culled: "+((i/len)*100).toString().slice(0,5)+"%"});
 	}
 	postMessage({status:"done", data:words})
 };
