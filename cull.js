@@ -26,11 +26,10 @@ onmessage = function(m){
 				"way":"way", "even":"even", "new":"new", "want":"want", 
 				"because":"because", "any":"any", "these":"these", "give":"give", 
 				"day":"day", "most":"most", "us":"us"};
-	keys = Object.keys(m.data.data);
+	var keys = m.data.data
 	var i = 0;
-	for (var i = 0; i < keys.length; i++) {
-		var k = keys[i];
-		var v = m.data.data[keys[i]];
+	for (k in keys) {
+		var v = keys[k];
 		if (!(m.data.common == true && k in common || k.length < m.data.minlen)){
 			words.push({word:k, value:v});
 		}
