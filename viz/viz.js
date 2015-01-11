@@ -1,39 +1,54 @@
 var workers = [];
 document.addEventListener("DOMContentLoaded", function(event) {
 	var counts = {};
-	d3.text("comments.txt", function(e, txt){
-		info("getting comments");
-		var words = txt.split(/\s|\r\n|\r|\n/);
-		var temp = [];
-		info("formatting text");
-		words = words.map(function(e){//peliminary culling/data normilization. A lot of pointless stuff gets reduced to "", which is kinda nice.
-			var a = e.toLowerCase()
-			.replace(/[h|f]t+ps?/g, "")//removes http/https/ftp
-			.replace(/www\.?|\.com/g, "")//removes 'www.', other prefixes are likely either words, or will be eliminated later
-			.replace(/\/?(r|u)\/\w+/g,"")//removes /r/ or /u/ and the username/subreddit
-			.replace(/\d+|\\|\/|\&(gt|lt|amp)\;/g, " ")//replaces digits and slashes with spaces, also &gt|lt|amp;
-			.replace(/\.|\,|\-|\_|\*|\+|\?\|/g, " ")//replaces various formatting characters with spaces
-			.replace(/\[|\]|\(|\)|\:|\;|\!|\#|\^/g," ")//more formatting character replacement
-			.replace(/\~|\=|\%|\$|\&|\@/g," ")//EVEN MORE
-			.replace(/\'|\"/g,"")
-			.trim().split(" ");
-			if (a.length > 0) temp = temp.concat(a.slice(1,a.length));
-			return a[0];
-		});
-		words = words.concat(temp);
-		document.getElementById("stats").textContent += words.length + " individual words, ";
-		info("counting words");
-		for (var i = 0; i < words.length; i++) {
-			if (!words[i].match(/\d/)) {
-				if (counts[words[i]] == null) {
-					counts[words[i]] = 1;
-				} else {
-					counts[words[i]]++;
+	load("pics");
+	function load(sub){
+		counts = {};
+		var txt = document.createElement("textarea");
+		String.prototype.decodeHtml = function() {
+			txt.innerHTML = this;
+			return txt.value;
+		}
+		d3.text("comments_"+ sub +".txt", function(e, txt){
+			info("getting comments");
+			var words = txt.split(/\s|\r\n|\r|\n/);
+			var temp = [];
+			info("formatting text");
+			words = words.map(function(e){//peliminary culling/data normilization. A lot of pointless stuff gets reduced to "", which is kinda nice.
+				var a = e.toLowerCase()
+				.decodeHtml()
+				.replace(/[h|f]t+ps?/g, "")//removes http/https/ftp
+				.replace(/www\.?|\.com/g, "")//removes 'www.', other prefixes are likely either words, or will be eliminated later
+				.replace(/\/?(r|u)\/\w+/g,"")//removes /r/ or /u/ and the username/subreddit
+				.replace(/\d+|\\|\/|\&((gt|lt|amp)\;)+/g, " ")//replaces digits and slashes with spaces, also &gt|lt|amp;
+				.replace(/\.|\,|\-|\_|\*|\+|\?\|/g, " ")//replaces various formatting characters with spaces
+				.replace(/\[|\]|\(|\)|\:|\;|\!|\#|\^/g," ")//more formatting character replacement
+				.replace(/\~|\=|\%|\$|\&|\@/g," ")//EVEN MORE
+				.replace(/\'|\"/g,"")
+				.trim().split(" ");
+				if (a.length > 0) temp = temp.concat(a.slice(1,a.length));
+				return a[0];
+			});
+			words = words.concat(temp);
+			words = words = words.filter(function(x){//filter out spaces
+				if (x !== "" || x !== " ") { return x; }
+			});
+			info("counting words");
+			for (var i = 0; i < words.length; i++) {
+				if (!words[i].match(/\d/)) {
+					if (counts[words[i]] == null) {
+						counts[words[i]] = 1;
+					} else {
+						counts[words[i]]++;
+					}
 				}
 			}
-		}
-		document.getElementById("stats").textContent += Object.keys(counts).length + " unique words";
-		plot(counts, 3, 20);
+			document.getElementById("stats").textContent = "2000 comments, " + words.length + " individual words, " + Object.keys(counts).length + " unique words";
+			plot(counts, 3, 20);
+		});
+	}
+	document.getElementById('sub').addEventListener("change", function(event){
+		load(event.target.value);
 	});
 	document.getElementById('opts').addEventListener("submit", function(event){
 		event.stopPropagation();
