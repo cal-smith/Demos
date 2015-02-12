@@ -22,6 +22,7 @@
 		var y = 0;
 		var right = true;
 		var bottom = false;
+		var small = {};
 		window.addEventListener('resize', function(e){
 			client = {x:window.innerWidth-16, y:window.innerHeight-16}
 			canvas.width = client.x;
@@ -51,6 +52,7 @@
 			this.scale = s;
 			this.ctx = ctx;
 			this.color = (typeof color === 'undefined')?"blue":color;
+			this.id = Date.now()+this.scale;
 		};
 
 		Circle.prototype.render = function() {
@@ -83,9 +85,12 @@
 			}
 			for (var i = 0; i < circles.length; i++) {
 				circles[i].render();
+				if (circles[i].scale <= 2) {
+					small[circles[i].id] = circles[i].scale;
+				}
 			}
 			circles = circles.filter(function(c){
-				if ((c.x > client.x) || (c.x < 0) || (c.y > client.y) || (c.y < 0)) {
+				if ((c.x > client.x+c.size) || (c.x < 0-c.size) || (c.y > client.y+c.size) || (c.y < 0-c.size)) {
 					return false;
 				}
 				return true;
