@@ -1,0 +1,91 @@
+<html>
+<head>
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+<canvas id="ui"></canvas>
+<script type="text/javascript">
+var canvas = e('ui');
+var client = {x:window.innerWidth, y:window.innerHeight}
+canvas.width = client.x;
+canvas.height = client.y;
+var ctx = canvas.getContext('2d');
+var mouse = {x:0, y:0, click:false};
+
+window.addEventListener('mousemove', function(e){
+	mouse.x = e.x;
+	mouse.y = e.y;
+});
+
+document.addEventListener('dragstart', function(e){
+	console.log(e);
+});
+
+window.addEventListener('mousedown', function(e){
+	//console.log(e);
+	if (e.button === 0) {
+		mouse.click = true;
+	}
+});
+
+window.addEventListener('mouseup', function(e){
+	//console.log(e);
+	if (e.button === 0) {
+		mouse.click = false;
+	}
+});
+
+var Window = function(){
+	this.x = 0;
+	this.y = 0;
+	this.width = 200;
+	this.height = 200;
+	this.ctx = ctx;
+	this.focus = false;
+}
+
+Window.prototype.render = function(){
+
+	if (mouse.click && mouse.x > this.x-10 && mouse.x > this.x+10 && mouse.x < (this.width+this.x+10) && mouse.x < (this.width+this.x-10) && mouse.y > this.y && mouse.y < (this.height+this.y)) {
+		this.edge = true;	
+	} else if (mouse.click && mouse.x > this.x && mouse.x < (this.width+this.x) && mouse.y > this.y && mouse.y < (this.height+this.y)) {
+		this.focus = true;
+	} else if (!mouse.click){
+		this.edge = false
+		this.focus = false
+	}
+	
+	if (this.focus && mouse.x > this.x && mouse.x < (this.width+this.x)){
+		this.x = mouse.x - this.width/2;
+		this.y = mouse.y - 20;
+	}
+
+	if (this.edge) {
+		console.log(((this.x+this.width) - mouse.x));
+	}
+	this.ctx.strokeStyle = "black";
+	this.ctx.strokeRect(this.x, this.y, this.width, this.height);
+}
+
+w = new Window();
+function render(t){
+	ctx.clearRect(0, 0, client.x, client.y);
+	w.render();
+}
+
+function frame (t){
+	window.requestAnimationFrame(frame);
+	render(t);
+}
+window.requestAnimationFrame(frame);
+
+function e (e){
+	return document.getElementById(e);
+}
+</script>
+</body>
+</html>
