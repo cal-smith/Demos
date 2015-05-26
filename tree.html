@@ -1,0 +1,37 @@
+<script type="text/javascript">
+var Tree = function(){
+	this.root = new Node(null, null);
+};
+
+Tree.prototype.add = function(d){
+	this.root.add(d);
+}
+
+var Node = function(parent, d){
+	this.parent = parent;
+	this.nodes = [];
+	this.data = d;
+};
+
+Node.prototype.add = function(d){
+	node = new Node(this, d);
+	this.nodes.push(node);
+	return node;
+};
+
+Node.prototype.find = function(d){
+	if (this.data === d) {
+		return this;
+	} else {
+		var node = this;
+		for (var i = 0; i < this.nodes.length; i++) {
+			node = this.nodes[i].find(d);
+		};
+		return node;
+	}
+}
+
+var tree = new Tree();
+tree.root.add("l2n1");
+tree.root.add("l2n2").add("l3n1");
+</script>

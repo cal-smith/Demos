@@ -1,0 +1,107 @@
+<html>
+<head>
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+<canvas id="ui"></canvas>
+<script type="text/javascript">
+var canvas = e('ui');
+var client = {x:window.innerWidth, y:window.innerHeight}
+canvas.width = client.x;
+canvas.height = client.y;
+var ctx = canvas.getContext('2d');
+var mouse = {x:0, y:0, click:false};
+var move = {l:false, r:false, u:false, d:false};
+var x = 0;
+var y = 0;
+
+window.addEventListener('mousemove', function(e){
+	mouse.x = e.x;
+	mouse.y = e.y;
+});
+
+window.addEventListener('keydown', function(e){
+	switch (e.keyIdentifier) {
+		case "Right": move.r = true;
+		break;
+		case "Left": move.l = true;
+		break;
+		case "Up": move.u = true;
+		break;
+		case "Down": move.d = true;
+	}
+});
+
+window.addEventListener('keyup', function(e){
+	switch (e.keyIdentifier) {
+		case "Right": move.r = false;
+		break;
+		case "Left": move.l = false;
+		break;
+		case "Up": move.u = false;
+		break;
+		case "Down": move.d = false;
+	}
+});
+
+window.addEventListener('mousedown', function(e){
+	//console.log(e);
+	if (e.button === 0) {
+		mouse.click = true;
+	}
+});
+
+window.addEventListener('mouseup', function(e){
+	//console.log(e);
+	if (e.button === 0) {
+		mouse.click = false;
+	}
+});
+
+var Tile = function(){
+	this.x = 0;
+	this.y = 0;
+	this.width = 200;
+	this.height = 200;
+	this.ctx = ctx;
+	this.focus = false;
+}
+
+Tile.prototype.render = function(){
+	this.x = x;
+	this.y = y;
+	this.ctx.strokeStyle = "black";
+	this.ctx.strokeRect(this.x, this.y, this.width, this.height);
+}
+
+t1 = new Tile();
+function render(t){
+	/*if (mouse.click) {
+		x += 1;
+		y = y-mouse.y;
+		console.log(x);
+	}*/
+	if (move.r) x += 5;
+	if (move.l) x--;
+	if (move.u) y--;
+	if (move.d) y++;
+	ctx.clearRect(0, 0, client.x, client.y);
+	t1.render();
+}
+
+function frame (t){
+	window.requestAnimationFrame(frame);
+	render(t);
+}
+window.requestAnimationFrame(frame);
+
+function e (e){
+	return document.getElementById(e);
+}
+</script>
+</body>
+</html>
