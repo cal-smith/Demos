@@ -51,13 +51,18 @@ var Reddit = React.createClass({
 		console.log(this.state.data);
 		var nodes = this.state.data.map(function(posts){
 			return (
-				<Pictures data={posts} after={after} loadReddit={loadReddit}></Pictures>
-			);
+				posts.map(function(post){
+					if (post.data.url.contains("i.imgur")){
+						return (<Picture url={post.data.url} title={post.data.title}></Picture>);
+					}
+				}));
 		});
 		return (
 			<div>
 				<Controls loadReddit={this.loadReddit}></Controls>
-				{nodes}
+				<div className="pictures">
+					{nodes}
+				</div>
 			</div>
 		)
 	}
@@ -80,23 +85,6 @@ var Controls = React.createClass({
 					&nbsp;
 					<input type="submit" value="Add" />
 				</form>
-			</div>
-		)
-	}
-});
-
-var Pictures = React.createClass({
-	render: function(){
-		var nodes = this.props.data.map(function(post){
-			if (post.data.url.contains("i.imgur")){
-				return (
-					<Picture url={post.data.url} title={post.data.title}></Picture>
-				);
-			}
-		});
-		return (
-			<div className="pictures">
-				{nodes}
 			</div>
 		)
 	}
