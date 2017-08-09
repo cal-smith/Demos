@@ -8,11 +8,11 @@ if (!('contains' in String.prototype)) {
 var Reddit = React.createClass({
 	loading: false,
 	loadReddit: function(after, reload){
-		var url = "http://www.reddit.com/r/pics/.json";
+		var url = "https://www.reddit.com/r/pics/.json";
 		var urlvars = after ? ["limit=50", "after="+after] : ["limit=50"];
 		if (window.location.hash) {
 			var multi = window.location.hash.slice(1);
-			url = "http://www.reddit.com/r/" + multi + "/.json";
+			url = "https://www.reddit.com/r/" + multi + "/.json";
 		}
 		if(!this.loading){
 			this.loading = true;
